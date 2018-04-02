@@ -52,6 +52,26 @@ class Button extends Component {
         });
     }
 
+    handleSearch(){
+        let body={}
+        switch(this.props.searchSelect){
+            case "Author": 
+                body = {author: this.props.searchItem}
+                break;
+            case "Title": 
+                body = { title: this.props.searchItem}
+                break;
+            default:
+                break;
+        }
+        axios.put(baseUrl+"/"+this.props.searchSelect, body).then(function (response) {
+            console.log(response);
+        })
+        .catch(function (error) {
+            alert("None of your friends own this book!");
+        });
+    }
+
     handleButtonClick(){
         if (this.props.text==="Add"){
             this.handleAdd();
@@ -59,6 +79,8 @@ class Button extends Component {
             this.handleDelete();
         }else if(this.props.text==="Update Owner"){
             this.handleUpdateOwner();
+        }else if(this.props.text==="Search"){
+            this.handleSearch();
         }else{
             console.log("Button has been passed an invalid value!")
         }

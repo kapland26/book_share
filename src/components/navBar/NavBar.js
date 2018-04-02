@@ -14,9 +14,17 @@ class NavBar extends Component {
         titleIn: "",
         authorIn: "",
         ownerIn: "",
+        searchIn: "",
+        searchSelect: ""
     }
 
     // this.handleAdd = this.handleAdd.bind(this);
+  }
+
+  componentDidMount(){
+      this.setState({
+          searchSelect: "Author"
+      })
   }
 
   handleTitleIn(e){
@@ -32,6 +40,16 @@ class NavBar extends Component {
   handleOwnerIn(e){
     this.setState({
         ownerIn: e
+    })
+  }
+  handleSearchIn(e){
+    this.setState({
+        searchIn: e
+    })
+  }
+  handleSearchSelect(e){
+    this.setState({
+        searchSelect: e
     })
   }
   handleClearIns(){
@@ -65,6 +83,22 @@ class NavBar extends Component {
                 </div>
                 <div onClick={()=>{this.handleClearIns("")}} className="add-item">
                     <Button text="Add" title= {this.state.titleIn} author={this.state.authorIn} owner={this.state.ownerIn}/>
+                </div>
+            </div>
+            <div className="search-container">
+                <div className="add-item" >
+                    <select onClick={(e)=>this.handleSearchSelect(e.target.value)}>
+                        <option value="Author">Author</option>
+                        <option value="Title">Title</option>
+                    </select>
+                </div>
+                <div className="add-item" >
+                    <input onChange={(e)=>this.handleSearchIn(e.target.value)} type="text" value={this.state.searchIn}/>
+                </div>
+                <div className="add-item">
+                    <div onClick={()=> this.handleSearchIn("")}>
+                    <Button text="Search" searchSelect= {this.state.searchSelect} searchItem= {this.state.searchIn}/>
+                    </div>
                 </div>
             </div>
         </div>

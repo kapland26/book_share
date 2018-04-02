@@ -3,16 +3,10 @@
 //   {title: "whatever", author:"whatever2"}
 // ];
 
-// let n0 = "Eunice";
-// let n1 = "Agnes";
-// let n2 = "Vladimir";
-// let n3 = "Horace";
-
-let n0 = "name0";
-let n1 = "name1";
-let n2 = "name2";
-let n3 = "name3";
-
+let n0 = "Eunice";
+let n1 = "Gertrude";
+let n2 = "Vladimir";
+let n3 = "Archibald";
 
 let booksDB = [
   {id: 0, title: "A Little Life", author: "Hanya Yanagihara", cover: "https://images-na.ssl-images-amazon.com/images/I/51Ht2Od%2BZ2L._SX321_BO1,204,203,200_.jpg", owner: n0},
@@ -70,20 +64,46 @@ module.exports = {
     },
   
     update: ( req, res ) => {
-      const { owner } = req.body;
-      const updateID = req.params.id;
-      const bookIndex = booksCurr.findIndex( book => book.id == updateID );
-      let book = booksCurr[ bookIndex ];
-  
-      booksCurr[ bookIndex ] = {
-        id: booksCurr[bookIndex].id,
-        title:booksCurr[bookIndex].title,
-        author: booksCurr[bookIndex].author,
-        cover: booksCurr[bookIndex].cover,
-        owner: owner || book.owner
-      };
-  
-      res.status(200).send( booksCurr );
+      let { title, author, owner } = req.body;
+      let updateID = req.params.id;
+ 
+      //Update is performing search function:
+      if(updateID ==="Author" || updateID==="Title"){
+        let bookIndex = -1;
+        if(updateID ==="Author"){
+          bookIndex = booksCurr.findIndex( book => book.author == author );
+        }else if(updateID ==="Title"){
+          bookIndex = booksCurr.findIndex( book => book.title == title );
+        }
+        if(bookIndex == -1){
+          res.status(400).send("ID Does not exist");
+        }else{
+          let book = {
+            id: booksCurr[bookIndex].id,
+            author: booksCurr[bookIndex].author,
+            title: booksCurr[bookIndex].title,
+            owner: booksCurr[bookIndex].owner,
+            cover: booksCurr[bookIndex].cover
+          }
+          booksCurr.splice(bookIndex, 1);
+          booksCurr.unshift(book);
+          res.status(200).send( booksCurr );
+        }
+      }
+      else{ //Update is changing the owner of a book:
+        const bookIndex = booksCurr.findIndex( book => book.id == updateID );
+        let book = booksCurr[ bookIndex ];
+    
+        booksCurr[ bookIndex ] = {
+          id: booksCurr[bookIndex].id,
+          title:booksCurr[bookIndex].title,
+          author: booksCurr[bookIndex].author,
+          cover: booksCurr[bookIndex].cover,
+          owner: owner || book.owner
+        };
+    
+        res.status(200).send( booksCurr );
+      }
     },
   
     delete: ( req, res ) => {

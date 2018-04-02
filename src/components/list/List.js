@@ -13,7 +13,7 @@ function List( props ) {
         <img src={val.cover} alt="book cover artwork"/>
         <h2> {val.title} </h2>
         <h3> <b>{val.author}</b> </h3>
-        <h3><h4> Owner: <b>{val.owner}</b> </h4></h3>
+        <h3><div className="h4"> Owner: <b>{val.owner}</b> </div></h3>
         <br/>
         <ListInput title={val.title} id={val.id}/>
         </div>

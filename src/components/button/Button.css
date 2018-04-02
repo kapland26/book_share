@@ -2,7 +2,7 @@ button{
     font-family: 'IBM Plex Sans', sans-serif;
     font-weight: bold;
     font-size:11px;
-    background-color: #FCD7CB;
+    background-color: white; /* #FCD7CB; */
     width: 150px;
     height: 20px;
     border: 1px solid black;
